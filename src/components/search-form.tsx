@@ -1,5 +1,3 @@
-// Componentização do formulário de busca
-
 "use client"
 
 import { Search } from "lucide-react"

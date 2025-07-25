@@ -16,5 +16,3 @@ export async function GET(request: NextRequest) {
 
   return Response.json(products)
 }
-
-// API: Busca de produtos
