@@ -2,12 +2,11 @@
 
 import { Search } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { FormEvent } from "react"
+import { FormEvent, Suspense } from "react"
 
-export function SearchForm() {
+function SearchFormContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-
   const query = searchParams.get("q")
 
   function handleSearch(event: FormEvent<HTMLFormElement>) {
@@ -15,7 +14,6 @@ export function SearchForm() {
 
     const formData = new FormData(event.currentTarget)
     const data = Object.fromEntries(formData)
-
     const query = data.q
 
     if (!query) {
@@ -31,7 +29,6 @@ export function SearchForm() {
       className="flex w-[320px] items-center gap-3 rounded-full bg-zinc-900 px-5 py-3 ring-zinc-700"
     >
       <Search className="w-5 h-5 text-zinc-500" />
-
       <input
         name="q"
         defaultValue={query ?? ""}
@@ -40,5 +37,20 @@ export function SearchForm() {
         required
       />
     </form>
+  )
+}
+
+export function SearchForm() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex w-[320px] items-center gap-3 rounded-full bg-zinc-900 px-5 py-3 ring-zinc-700">
+          <Search className="w-5 h-5 text-zinc-500" />
+          <div className="flex-1 h-4 bg-zinc-800 rounded animate-pulse" />
+        </div>
+      }
+    >
+      <SearchFormContent />
+    </Suspense>
   )
 }
